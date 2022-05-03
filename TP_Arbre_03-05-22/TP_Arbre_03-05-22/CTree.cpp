@@ -25,17 +25,30 @@ CTree::~CTree() {
 node* CTree::GetRacine() {
 	return this->p_racine;
 }
-int CTree::GetDepth(node* p_node) {
+int CTree::GetNbOfNodes(node* p_node) {
+	if (p_node != nullptr) {
+		//we recup somme nodes retourned each call function + 1 to increment 
+		return 1 + GetNbOfNodes(p_node->p_sLeft) + GetNbOfNodes(p_node->p_sRight);
+	}
 
+	return 0;
+
+}
+int CTree::CalculDepth(node* p_node) {
+
+	//we compare the length bewteen son branch (height) and the most big is considered as the height max/dept of tree
 	if (p_node!=nullptr) {
 
-		int n_h_sLeft = GetDepth(p_node->p_sLeft);
-		int n_h_sRight = GetDepth(p_node->p_sRight);
+		int n_h_sLeft = CalculDepth(p_node->p_sLeft);
+		int n_h_sRight = CalculDepth(p_node->p_sRight);
 		return 1 + ((n_h_sLeft > n_h_sRight) ? n_h_sLeft : n_h_sRight);
 	}
 
 
 	return 0;
+}
+int CTree::GetDepth(node* p_node) {
+	return CalculDepth(p_node) - 1;
 }
 
 
@@ -50,10 +63,9 @@ int CTree::GetNbOfNodes(rootSystem root) {
 	return n_nbOfNodes;
 
 }*/
-
-
 int CTree::GetSizeOfTree() {
 
+	this->n_sizeTree = GetNbOfNodes(this->p_racine);
 	return n_sizeTree;
 }
 
@@ -94,7 +106,6 @@ void CTree::PutInTree(node* p_node) {
 
 
 }
-
 void CTree::AddNode(int n_value) {
 
 	node* p_node = new node;
@@ -105,13 +116,8 @@ void CTree::AddNode(int n_value) {
 
 	PutInTree(p_node);
 
-	this->n_sizeTree++;
-
 }
-
 void CTree::RemoveNode(node* p_node) {
-
-	this->n_sizeTree--;
 
 	node* p_current = this->p_racine;
 
@@ -151,6 +157,50 @@ void CTree::RemoveNode(node* p_node) {
 
 
 //balance and modification structure
+bool CTree::IsBalanced() {
+
+	node* p_current = this->p_racine;
+
+	if (this->p_racine != nullptr) {
+		//Balance perfect 
+	// we seek the number of nodes in sous-tree left and sous-tree right
+		int n_nbNodes_Left = GetNbOfNodes(p_current->p_sLeft);
+		int n_nbNodes_Right = GetNbOfNodes(p_current->p_sRight);
+		cout << endl<<"nb nodes left sous tree : " << n_nbNodes_Left << "  /  " << "nb nodes right sous tree : " << n_nbNodes_Right << endl;
+
+		// |nbNodes_Left - nbNodesRight| <= 1 : formule to know if tree is perfectly balanced
+		if (abs(n_nbNodes_Left - n_nbNodes_Right) <= 1) {
+			cout << "The tree is perfectly balanced" <<endl;
+			return true;
+		}
+		else {
+			// hNodes_Left - hNodesRight| <= 1 : formule to know if tree is more or less balanced
+			int n_Depth_Left = GetDepth(p_current->p_sLeft);
+			int n_Depth_Right = GetDepth(p_current->p_sRight);
+			cout << "depth left sous tree : " << n_Depth_Left << "  /   " << "depth right sous tree : " << n_Depth_Right << endl;
+
+			if (abs(n_Depth_Left - n_Depth_Right) <= 1) {
+				cout << "The tree is more or less balanced" << endl;
+				return true;
+			}
+		}
+	}
+	
+	cout << "The tree is not balanced!" << endl;
+	return false;
+}
+
+void CTree::BalanceTree() {
+
+	
+	if (!IsBalanced()) {
+		cout << "Balance required!" << endl;
+		cout << "Balance finished!" << endl;
+	}
+	
+	cout << "The tree is already balanced" << endl;
+}
+
 
 
 //research and  display
@@ -171,7 +221,6 @@ node* CTree::Research(int n_value) {
 	return nullptr;
 
 }
-
 //root tree
 void CTree::RootPrefix(node* p_node) {
 
@@ -183,7 +232,6 @@ void CTree::RootPrefix(node* p_node) {
 
 
 }
-
 void CTree::RootPostfix(node* p_node) {
 	if (p_node != nullptr) {
 
@@ -211,7 +259,6 @@ void CTree::RootPostfix(node* p_node) {
 
 	RootInfix(p_node->p_sRight, feature);
 }*/
-
 void CTree::DisplayTree(rootSystem root) {
 	switch (root) {
 	case rootSystem::rootPrefix:

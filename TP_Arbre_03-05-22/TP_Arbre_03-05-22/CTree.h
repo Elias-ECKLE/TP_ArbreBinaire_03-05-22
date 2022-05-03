@@ -26,8 +26,9 @@ public:
 
 	//getters
 	node* GetRacine();
+	int CalculDepth(node* p_node);
 	int GetDepth(node* p_node);
-	//int GetNbOfNodes(rootSystem);
+	int GetNbOfNodes(node*);
 	//int GetNbOfSheetNodes(rootSystem);
 	int GetSizeOfTree();
 
@@ -38,11 +39,12 @@ public:
 	//void DeleteTree();
 
 
+	bool IsBalanced();
+	void BalanceTree();
 
 	//display tree, research of several possibilities with rootprefix/rootpostfix
 	node* Research(int n_value);
 	void DisplayTree(rootSystem root); 
 
-	bool TreeIsBalanced();
-	void BalanceTree();
+
 };

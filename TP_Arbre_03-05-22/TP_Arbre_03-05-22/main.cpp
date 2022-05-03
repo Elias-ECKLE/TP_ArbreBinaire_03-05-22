@@ -10,9 +10,14 @@ int main() {
 	tree.AddNode(5);
 	tree.AddNode(20);
 	tree.AddNode(1);
+	tree.AddNode(10);
+	tree.AddNode(25);
+	tree.AddNode(100);
 
-	node* p_node = tree.Research(4);
-	tree.RemoveNode(p_node);
+
+
+	//node* p_node = tree.Research(4);
+	//tree.RemoveNode(p_node);
 
 	cout << "-----------------------------Display by prefix root-----------------------------------" << endl;
 	tree.DisplayTree(rootSystem::rootPrefix);
@@ -26,7 +31,7 @@ int main() {
 	int depth = tree.GetDepth(tree.GetRacine());
 	cout << "Depth of tree : " << depth << endl;
 
-
+	tree.IsBalanced();
 
 
 
