@@ -8,6 +8,11 @@ CTree::CTree() {
 	p_racine = nullptr;
 }
 
+CTree::CTree(node* p_node) {
+	n_sizeTree = 1;
+	n_depthTree = 0;
+	p_racine = p_node;
+}
 CTree::~CTree() {
 
 }
@@ -22,15 +27,15 @@ node* CTree::GetRacine() {
 }
 int CTree::GetDepth(node* p_node) {
 
-	if (p_node==nullptr) {
-		return 0;
-	}
-	else {
+	if (p_node!=nullptr) {
 
 		int n_h_sLeft = GetDepth(p_node->p_sLeft);
 		int n_h_sRight = GetDepth(p_node->p_sRight);
-		return 1 + (n_h_sLeft > n_h_sRight) ? n_h_sLeft : n_h_sRight;
+		return 1 + ((n_h_sLeft > n_h_sRight) ? n_h_sLeft : n_h_sRight);
 	}
+
+
+	return 0;
 }
 
 
@@ -167,9 +172,6 @@ node* CTree::Research(int n_value) {
 
 }
 
-
-
-
 //root tree
 void CTree::RootPrefix(node* p_node) {
 
@@ -209,8 +211,6 @@ void CTree::RootPostfix(node* p_node) {
 
 	RootInfix(p_node->p_sRight, feature);
 }*/
-
-
 
 void CTree::DisplayTree(rootSystem root) {
 	switch (root) {

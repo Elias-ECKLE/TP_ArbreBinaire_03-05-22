@@ -20,6 +20,7 @@ class CTree {
 
 public:
 	CTree();
+	CTree(node* p_node);
 	~CTree();
 
 
