@@ -32,6 +32,7 @@ int main() {
 	cout << "Depth of tree : " << depth << endl;
 
 	tree.IsBalanced();
+	//tree.BalanceTree(); //problem of infiny loop
 
 
 

@@ -5,6 +5,7 @@ using namespace std;
 #include "SNode.h"
 #include "ERootSystem.h"
 #include "EFeatureTree.h"
+#include "EBalanceTree.h"
 
 
 class CTree {
@@ -39,7 +40,9 @@ public:
 	//void DeleteTree();
 
 
-	bool IsBalanced();
+	void RotateLeft();
+	void RotateRight();
+	balanceSystem IsBalanced();
 	void BalanceTree();
 
 	//display tree, research of several possibilities with rootprefix/rootpostfix

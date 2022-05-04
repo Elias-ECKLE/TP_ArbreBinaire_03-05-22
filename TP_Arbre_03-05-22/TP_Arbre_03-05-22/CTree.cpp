@@ -157,11 +157,45 @@ void CTree::RemoveNode(node* p_node) {
 
 
 //balance and modification structure
-bool CTree::IsBalanced() {
+void CTree::RotateRight() {
+	//we have a model of tree (X,Y,B) and with that we invert the pointers between them to create a rotation
+	if (this->p_racine!=nullptr) {
+		node* Y = this->p_racine;
+		node* X = this->p_racine->p_sLeft;
+		node* B = this->p_racine->p_sLeft->p_sRight;
+
+		X = Y;
+		Y = X->p_sRight;
+		Y->p_sLeft = B;
+
+		p_racine = X;
+	}
+	
+}
+void CTree::RotateLeft() {
+	//we have a model of tree (X,Y,B) and with that we invert the pointers between them to create a rotation
+	if (this->p_racine != nullptr) {
+		node* Y = this->p_racine;
+		node* X = this->p_racine->p_sRight;
+		node* B = this->p_racine->p_sRight->p_sLeft;
+
+		X = Y;
+		Y = X->p_sLeft;
+		Y->p_sRight = B;
+
+		p_racine = X;
+	}
+
+}
+
+
+balanceSystem CTree::IsBalanced() {
 
 	node* p_current = this->p_racine;
 
 	if (this->p_racine != nullptr) {
+
+	/*FIRST TRY----------------------------------------------------------
 		//Balance perfect 
 	// we seek the number of nodes in sous-tree left and sous-tree right
 		int n_nbNodes_Left = GetNbOfNodes(p_current->p_sLeft);
@@ -183,22 +217,58 @@ bool CTree::IsBalanced() {
 				cout << "The tree is more or less balanced" << endl;
 				return true;
 			}
+
+		}*/
+		/*METHODE RETENUE--------------------------------------------------------*/
+		int n_nbNodes_Left = GetNbOfNodes(p_current->p_sLeft);
+		int n_nbNodes_Right = GetNbOfNodes(p_current->p_sRight);
+		cout << endl << "nb nodes left sous tree : " << n_nbNodes_Left << "  /  " << "nb nodes right sous tree : " << n_nbNodes_Right << endl;
+
+		if (n_nbNodes_Left - n_nbNodes_Right > 1){
+			cout << "The tree is unbalanced to left" << endl;
+			return balanceSystem::leftNoBalanced;
 		}
+		if (n_nbNodes_Left - n_nbNodes_Right < -1) {
+			cout << "The tree is unbalanced to right" << endl;
+			return balanceSystem::rightNoBalanced;
+		}
+
+		cout << "Tree is balanced" << endl;
+		return balanceSystem::balanced;
 	}
 	
-	cout << "The tree is not balanced!" << endl;
-	return false;
+	cout << "There is no tree" << endl;
+	return balanceSystem::none;
 }
 
 void CTree::BalanceTree() {
 
-	
-	if (!IsBalanced()) {
-		cout << "Balance required!" << endl;
-		cout << "Balance finished!" << endl;
+	if (p_racine!=nullptr) {
+
+		balanceSystem isBalanced = IsBalanced();
+
+		while (isBalanced != balanceSystem::balanced) {
+
+			switch (isBalanced) {
+			case balanceSystem::leftNoBalanced:
+				RotateRight();
+				break;
+			case balanceSystem::rightNoBalanced:
+				RotateLeft();
+				break;
+			case balanceSystem::balanced:
+				cout << "The tree is become balanced!" << endl;
+				break;
+			default :
+				cout << "Problem BalanceTree" << endl;
+			break;
+		
+			}
+			isBalanced = IsBalanced();
+		}
+		cout << "The tree is already balanced" << endl;
 	}
 	
-	cout << "The tree is already balanced" << endl;
 }
 
 

@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTree.h" />
+    <ClInclude Include="EBalanceTree.h" />
     <ClInclude Include="EFeatureTree.h" />
     <ClInclude Include="ERootSystem.h" />
     <ClInclude Include="SNode.h" />
